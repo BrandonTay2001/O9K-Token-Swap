@@ -21,7 +21,7 @@ class App extends Component {
     let deployedNetwork = TokenSwap.networks[networkId];
     const tokenswapInstance = new web3.eth.Contract(
       TokenSwap.abi,
-      deployedNetwork && deployedNetwork.address,
+      deployedNetwork && deployedNetwork.address
     );
     deployedNetwork = Token.networks[networkId];
     const tokenInstance = new web3.eth.Contract(
@@ -49,7 +49,15 @@ class App extends Component {
   
   constructor(props) {
     super(props);
-    this.state = { account: '', tokenInstance: {}, tokenswapInstance: {}, web3: null };
+    this.state = { account: '', tokenInstance: {}, tokenswapInstance: {}, web3 : null };
+  }
+
+  buyTokens = (etherAmount) => {
+    // .send() in web3 allows acting on a function instead of just reading from the blockchain
+    // .call() just for reading from blockchain
+    this.state.tokenswapInstance.methods.purchaseTokens().send({value : etherAmount, from : this.state.account}).on('tHash', (hash) => {
+      // do nothing
+    });
   }
 
   render() {
@@ -79,7 +87,7 @@ class App extends Component {
                   rel="noopener noreferrer"
                 >
                 </a>
-                <Interface />
+                <Interface buyTokens={this.buyTokens}/>
               </div>
             </main>
           </div>

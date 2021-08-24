@@ -1,6 +1,7 @@
 require('babel-register');
 require('babel-polyfill');
 
+// Taken from: https://youtu.be/roHoOZXIxYs
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const mnemonic = require('./secrets.json').mnemonic;
 
@@ -12,6 +13,7 @@ module.exports = {
       network_id: "*" // Match any network id
     },
 
+    // Taken from: https://youtu.be/roHoOZXIxYs
     ropsten: {
       provider: () => new HDWalletProvider(mnemonic, 'https://speedy-nodes-nyc.moralis.io/6fae173edc4997c10972840e/eth/ropsten'),
       network_id: 3,

@@ -1,56 +1,48 @@
 import React, { Component } from 'react';
+import BuyForm from './BuyForm.js';
+import SellForm from './SellForm.js';
 
 class Interface extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            outputO9K: '0', outputMsg: "Swapped for: ___ O9K"
+            currentForm : 'buy'
         };
-        this.updateContent = this.updateContent.bind(this);
-    }
-
-    updateContent() {
-        var outputMsg = "Swapped for: " + this.state.outputO9K.toString() + " O9K";
-        this.setState({outputMsg});
     }
 
     render() {
+        let content;
+        if (this.state.currentForm === 'buy') {
+            content = <BuyForm buyTokens={this.props.buyTokens}/>
+        }
+        else {
+            content = <SellForm />
+        }
         return(
             <div id="content">
+                <div className="d-flex justify-content-between mb-3">
+                    <button
+                        className="btn btn-light"
+                        onClick={(event) => {
+                            this.setState({ currentForm: 'buy' })
+                        }}
+                        >
+                        Buy
+                    </button>
+                    <span className="text-muted">&lt; &nbsp; &gt;</span>
+                    <button
+                        className="btn btn-light"
+                        onClick={(event) => {
+                            this.setState({ currentForm: 'sell' })
+                        }}
+                        >
+                        Sell
+                    </button>
+                </div>
 
                 <div className="card mb-4" >
                 <div className="card-body">
-                    <form className="mb-3" onSubmit={(event) => {
-                        event.preventDefault()
-                        let etherAmount
-                        etherAmount = this.input.value.toString()
-                        etherAmount = window.web3.utils.toWei(etherAmount, 'Ether')
-                        this.props.buyTokens(etherAmount)
-                        }}>
-                            <div className="ether-input">
-                                <input
-                                    type="text"
-                                    onChange={(event) => {
-                                    const etherAmount = this.input.value.toString()
-                                    this.setState({
-                                        outputO9K: etherAmount * 10
-                                    })
-                                    }}
-                                    ref={(input) => { this.input = input }}
-                                    className="form-control form-control-lg"
-                                    placeholder="Enter amount in Ether"
-                                    required />
-                            </div>
-                            <div className="O9K-output">
-                                { this.state.outputMsg }
-                            </div>
-                            
-                            <div className="mb-5">
-                                <span className="float-left text-muted">Exchange Rate</span>
-                                <span className="float-right text-muted">1 ETH = 10 O9K</span>
-                            </div>
-                            <button type="submit" className="btn btn-primary btn-block btn-lg" onClick={this.updateContent}>SWAP!</button>
-                    </form>
+                    {content}
 
                     </div>
                         <h6>psst.. make sure you have Metamask connected to the right network!</h6>

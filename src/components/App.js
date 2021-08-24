@@ -5,6 +5,7 @@ import Token from '../abis/Token.json';
 import TokenSwap from '../abis/TokenSwap.json';
 import './App.css';
 import Interface from './Interface.js';
+import BuyForm from './BuyForm.js';
 
 class App extends Component {
 

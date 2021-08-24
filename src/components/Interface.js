@@ -16,7 +16,7 @@ class Interface extends Component {
             content = <BuyForm buyTokens={this.props.buyTokens}/>
         }
         else {
-            content = <SellForm />
+            content = <SellForm sellTokens={this.props.sellTokens}/>
         }
         return(
             <div id="content">

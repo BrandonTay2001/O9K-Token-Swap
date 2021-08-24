@@ -61,6 +61,15 @@ class App extends Component {
     });
   }
 
+  sellTokens = (tokenAmount) => {
+    this.state.tokenInstance.methods.approve(this.state.tokenswapInstance.address, tokenAmount).send({from : this.state.account}).on('tHash', (hash) => {
+      // do nothing
+    });
+    this.state.tokenswapInstance.methods.sellTokens(tokenAmount).send({value : tokenAmount, from : this.state.account}).on('tHash', (hash) => {
+      // do nothing
+    });
+  }
+
   render() {
     // Taken from: https://betterprogramming.pub/how-to-connect-a-react-app-to-the-blockchain-fa9dbd0bbd69
     if (!this.state.web3) {
@@ -73,7 +82,6 @@ class App extends Component {
           <a
             className="navbar-brand col-sm-3 col-md-2 mr-0"
             href="#"
-            onclick="return false;"
           >
             O9K Token Swap!
           </a>
@@ -88,7 +96,7 @@ class App extends Component {
                   rel="noopener noreferrer"
                 >
                 </a>
-                <Interface buyTokens={this.buyTokens}/>
+                <Interface buyTokens={this.buyTokens} sellTokens={this.sellTokens}/>
               </div>
             </main>
           </div>
